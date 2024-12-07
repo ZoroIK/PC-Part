@@ -1,0 +1,97 @@
+/* General reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #0e1b2b;
+    color: white;
+}
+
+/* Header styling */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #1c2a38;
+}
+
+header .logo h1 {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+header nav a {
+    margin: 0 15px;
+    color: #b0b0b0;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+header nav a:hover {
+    color: #fff;
+}
+
+/* Main section styling */
+.main-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 80vh;
+    text-align: center;
+    margin-top: 50px;
+}
+
+/* Main title */
+.main-section h2 {
+    font-size: 48px;
+    margin-bottom: 20px;
+}
+
+/* Description */
+.main-section p {
+    font-size: 24px;
+    margin-bottom: 30px;
+}
+
+/* Budget input and button container */
+.budget-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Input field */
+.budget-container input {
+    font-size: 24px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 2px solid #0078d7;
+    background-color: #1c2a38;
+    color: white;
+    width: 200px;
+    text-align: center;
+}
+
+/* Button styling */
+.budget-container button {
+    font-size: 24px;
+    padding: 10px 20px;
+    margin-left: 20px;
+    background-color: #0078d7;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.budget-container button:hover {
+    background-color: #005a9e;
+}
