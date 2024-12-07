@@ -132,7 +132,7 @@
             background-color: #5a636f;
         }
 
-        /* Modal Styling */
+        /* Modal container styles */
         .modal {
             display: none;
             position: fixed;
@@ -140,42 +140,70 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
+            background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent background */
             justify-content: center;
             align-items: center;
+            z-index: 1000;
         }
 
+        /* Modal content container */
         .modal-content {
-            background-color: #2c3a4e;
+            background-color: white;
+            color: black;
+            border-radius: 8px;
+            width: 80%;
+            max-height: 80%; /* Restrict modal height to 80% of the screen */
             padding: 20px;
-            border-radius: 8px;
-            max-width: 600px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            overflow-y: auto; /* Enable vertical scrolling */
+            position: relative;
+        }
+
+        /* Modal table container */
+        #modal-table-container {
+            max-height: 400px; /* Set max height for table container */
+            overflow-y: auto; /* Enable scrolling if content exceeds container height */
+            border: 1px solid #ddd;
+            margin-top: 15px;
+        }
+
+        /* Table styles */
+        #modal-components-table {
             width: 100%;
-            text-align: center;
+            border-collapse: collapse;
+            text-align: left;
         }
 
-        .modal-content ul {
-            list-style-type: none;
-            padding: 0;
+        #modal-components-table th,
+        #modal-components-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
         }
 
-        .modal-content li {
-            background-color: #444c5c;
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 8px;
+        #modal-components-table th {
+            background-color: #f4f4f4;
+            font-weight: bold;
         }
 
+        #modal-components-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        /* Close button styles */
         .close-btn {
-            padding: 10px 20px;
-            background-color: #e74c3c;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: red;
             color: white;
             border: none;
-            font-size: 16px;
-            cursor: pointer;
+            padding: 10px 15px;
             border-radius: 4px;
-            margin-top: 10px;
+            cursor: pointer;
         }
+        .close-btn:hover {
+            background-color: #d32f2f; /* Darker red */
+}
 
         .loading {
             font-size: 18px;
@@ -224,9 +252,26 @@
 
     <!-- Modal for showing components -->
     <div class="modal" id="modal">
-        <div class="modal-content">
+        <div class="modal-content" id='modal-content'>
             <h3>Available Components</h3>
-            <ul id="modal-components-list"></ul>
+            <!-- Table for components -->
+            <div id="modal-table-container">
+                <table id="modal-components-table">
+                    <thead>
+                        <tr>
+                            <th>CPUId</th>
+                            <th>Name</th>
+                            <th>Price</th>
+                            <th>Discount</th>
+                            <th>WebLink</th>
+                        </tr>
+                    </thead>
+                    <tbody id="modal-components-list">
+                        <!-- Rows will be dynamically added here -->
+                    </tbody>
+                </table>
+               
+            </div>
             <button class="close-btn" onclick="closeModal()">Close</button>
         </div>
     </div>
@@ -310,7 +355,7 @@
                     //        alert('Failed to fetch components');
                      //   });
                     // Make the fetch request with the selected type and price
-                    fetch(`/api/cpus_amd`)
+                    fetch('http://localhost:3000/api/cpus_amd')
                         .then(response => response.json())
                         .then(data => {
                             openModal(data);  // Open the modal with the fetched data
@@ -328,17 +373,73 @@
 
         // Open the modal with the fetched component data
         function openModal(data) {
+            
             let modal = document.getElementById('modal');
-            let modalList = document.getElementById('modal-components-list');
-            modalList.innerHTML = ''; // Clear any previous data
+            
+            let modalContent = document.getElementById('modal-content');
+            
+            modalContent.innerHTML = ''; // Clear any previous data
+            console.log(data);
+            // Create a table element
+            let table = document.createElement('table');
+            table.style.width = '100%';
+            table.style.borderCollapse = 'collapse';
+            
+            // Create table header
+            let thead = document.createElement('thead');
+            let headerRow = document.createElement('tr');
+
+            let headers = ['CPUId', 'Name', 'Price', 'Discount', 'WebLink'];
+            headers.forEach(headerText => {
+                let th = document.createElement('th');
+                th.textContent = headerText;
+                th.style.border = '1px solid #ddd';
+                th.style.padding = '8px';
+                th.style.textAlign = 'left';
+                th.style.backgroundColor = '#f2f2f2';
+                headerRow.appendChild(th);
+            });
+            
+            thead.appendChild(headerRow);
+            table.appendChild(thead);
+
+            // Create table body
+            let tbody = document.createElement('tbody');
 
             data.forEach(component => {
-                let li = document.createElement('li');
-                li.textContent = `${component.name} - Price: $${component.price}`;
-                modalList.appendChild(li);
+                let row = document.createElement('tr');
+
+                // Add each property of the component as a cell
+                ['CPUId', 'Name', 'Price', 'Discount', 'WebLink'].forEach(key => {
+                    let td = document.createElement('td');
+                    td.style.border = '1px solid #ddd';
+                    td.style.padding = '8px';
+
+                    if (key === 'WebLink') {
+                        // Create a clickable link for WebLink
+                        let link = document.createElement('a');
+                        link.href = component[key];
+                        link.textContent = 'View';
+                        link.target = '_blank'; // Open in new tab
+                        td.appendChild(link);
+                    } else {
+                        td.textContent = component[key];
+                    }
+
+                    row.appendChild(td);
+                });
+
+                tbody.appendChild(row);
             });
 
-            modal.style.display = 'flex'; // Show the modal
+            table.appendChild(tbody);
+
+            // Append table to modal content
+            modalContent.appendChild(table);
+
+            // Show the modal
+            modal.style.display = 'flex';
+            console.log(document.querySelector('.close-btn'));
         }
 
         // Close the modal

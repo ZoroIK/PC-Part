@@ -10,6 +10,8 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+
+
 const jwt = require('jsonwebtoken'); // Import JWT
 const SECRET_KEY = 'your_secret_key'; // Replace with a strong, secure key
 
@@ -117,6 +119,7 @@ app.post('/create-account', async (req, res) => {
 //Amd Cpu
 // Endpoint to get the list of all CPUs from the CPU_AMD table
 app.get('/api/cpus_amd', (req, res) => {
+  //console.log('Request sent');
   const query = 'SELECT * FROM CPU_AMD';
 
   pool.query(query, (err, results) => {
