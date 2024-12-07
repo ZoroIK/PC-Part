@@ -315,21 +315,27 @@
             let Case_Price =(budget * 0.06).toFixed(2);
 
             let components = [
-                `${selectedCpu} CPU - Price: $${CPU_Price}`,
-                `GPU - Price: $${GPU_Price}`,
-                `Motherboard - Price: $${Mother_Price}`,
+                `${selectedCpu}_CPU - Price: $${CPU_Price}`,
+                `AMD_GPU - Price: $${GPU_Price}`,
+                `Nvidia_GPU - Price: $${GPU_Price}`,
+                `${selectedCpu}_Motherboard - Price: $${Mother_Price}`,
                 `RAM - Price: $${Ram_Price}`,
-                `Storage - Price: $${Storage_Price}`,
-                `Power Supply - Price: $${Power_Price}`,
+                `SSD - Price: $${Storage_Price}`,
+                `HDD - Price: $${Storage_Price}`,
+                `Power_Supply - Price: $${Power_Price}`,
                 `Case - Price: $${Case_Price}`
             ];
             const prices = {
-                CPU: CPU_Price,
-                GPU: GPU_Price,
-                Motherboard: Mother_Price,
+                AMD_CPU: CPU_Price,
+                Intel_CPU: CPU_Price,
+                AMD_GPU: GPU_Price,
+                Nvidia_GPU: GPU_Price,
+                AMD_Motherboard: Mother_Price,
+                Intel_Motherboard: Mother_Price,
                 RAM: Ram_Price,
-                Storage: Storage_Price,
-                Power: Power_Price,
+                SSD: Storage_Price,
+                HDD: Storage_Price,
+                Power_Supply: Power_Price,
                 Case: Case_Price
             };
 
@@ -344,26 +350,36 @@
                     
                     // Get the corresponding price from the 'prices' object
                     let price = prices[componentType];  // Access the price for the component
+                    // Map component types to their respective endpoints
+                    let endpointMap = {
+                        AMD_CPU: 'api/cpus_amd',  // Use AMD CPUs as the default
+                        Intel_CPU: 'api/cpus_intel', // Use Intel endpoint for Intel CPUs
+                        AMD_GPU: 'api/gpus_amd', 
+                        Nvidia_GPU: 'api/gpus_nvidia',      // Add other endpoints if available
+                        AMD_Motherboard: 'api/motherboards_amd',
+                        intel_Motherboard: 'api/motherboards_intel',
+                        RAM: 'api/ram',
+                        SDD: 'api/ssd',
+                        HDD: 'api/hdd',
+                        Power_Supply: 'api/power',
+                        Case: 'api/cases'
+                    };
 
-                    // Make the fetch request with the selected type and price
-                    //fetch(`/api/components?type=${componentType}&budget=${price}`)
-                    //    .then(response => response.json())
-                    //    .then(data => {
-                    //        openModal(data);  // Open the modal with the fetched data
-                    //    })
-                      //  .catch(error => {
-                    //        alert('Failed to fetch components');
-                     //   });
-                    // Make the fetch request with the selected type and price
-                    fetch('http://localhost:3000/api/cpus_amd')
+
+
+                    // Determine the API endpoint based on the component type
+                    let endpoint = endpointMap[componentType] || 'api/cpus_amd'; // Default to AMD CPUs
+
+                    // Make the fetch request with the price as a query parameter
+                    fetch(`http://localhost:3000/${endpoint}?budget=${price}`)
                         .then(response => response.json())
                         .then(data => {
-                            openModal(data);  // Open the modal with the fetched data
+                            openModal(data); // Open the modal with the fetched data
                         })
                         .catch(error => {
                             alert('Failed to fetch components');
                         });
-                };
+                    };
 
                 componentsList.appendChild(li);
             });
@@ -436,7 +452,14 @@
 
             // Append table to modal content
             modalContent.appendChild(table);
+            // Ensure the close button is added
 
+            let closeButton = document.createElement('button');
+            closeButton.className = 'close-btn';
+            closeButton.textContent = 'Close';
+            closeButton.onclick = closeModal;
+            modalContent.appendChild(closeButton);
+            
             // Show the modal
             modal.style.display = 'flex';
             console.log(document.querySelector('.close-btn'));

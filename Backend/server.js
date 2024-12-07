@@ -119,19 +119,304 @@ app.post('/create-account', async (req, res) => {
 //Amd Cpu
 // Endpoint to get the list of all CPUs from the CPU_AMD table
 app.get('/api/cpus_amd', (req, res) => {
-  //console.log('Request sent');
-  const query = 'SELECT * FROM CPU_AMD';
+  // Get the budget from query parameters
+  const budget = req.query.budget;
 
-  pool.query(query, (err, results) => {
-      if (err) {
-          console.error('Error fetching data:', err);
-          return res.status(500).json({ error: 'Failed to fetch CPUs' });
-      }
+  // Validate the budget to ensure it's a valid number
+  if (!budget || isNaN(budget)) {
+    return res.status(400).json({ error: 'Invalid or missing budget parameter' });
+  }
 
-      // Send the results as a JSON response
-      res.json(results);
+  // Prepare the SQL query to filter CPUs below the given budget
+  const query = 'SELECT * FROM CPU_AMD WHERE price <= ?';
+
+  // Execute the query with the budget as a parameter
+  pool.query(query, [budget], (err, results) => {
+    if (err) {
+      console.error('Error fetching data:', err);
+      return res.status(500).json({ error: 'Failed to fetch CPUs' });
+    }
+
+    // Send the filtered results as a JSON response
+    res.json(results);
   });
 });
+
+// Endpoint to get the list of all CPUs from the CPU_Intel table
+app.get('/api/cpus_intel', (req, res) => {
+  // Get the budget from query parameters
+  const budget = req.query.budget;
+
+  // Validate the budget to ensure it's a valid number
+  if (!budget || isNaN(budget)) {
+    return res.status(400).json({ error: 'Invalid or missing budget parameter' });
+  }
+
+  // Prepare the SQL query to filter CPUs below the given budget
+  const query = 'SELECT * FROM CPU_Intel WHERE price <= ?';
+
+  // Execute the query with the budget as a parameter
+  pool.query(query, [budget], (err, results) => {
+    if (err) {
+      console.error('Error fetching data:', err);
+      return res.status(500).json({ error: 'Failed to fetch CPUs' });
+    }
+
+    // Send the filtered results as a JSON response
+    res.json(results);
+  });
+});
+
+// Endpoint to get the list of all CPUs from the GPU_Nvidia table
+app.get('/api/gpus_nvidia', (req, res) => {
+  // Get the budget from query parameters
+  const budget = req.query.budget;
+
+  // Validate the budget to ensure it's a valid number
+  if (!budget || isNaN(budget)) {
+    return res.status(400).json({ error: 'Invalid or missing budget parameter' });
+  }
+
+  // Prepare the SQL query to filter CPUs below the given budget
+  const query = 'SELECT * FROM GPU_Nvidia WHERE price <= ?';
+
+  // Execute the query with the budget as a parameter
+  pool.query(query, [budget], (err, results) => {
+    if (err) {
+      console.error('Error fetching data:', err);
+      return res.status(500).json({ error: 'Failed to fetch CPUs' });
+    }
+
+    // Send the filtered results as a JSON response
+    res.json(results);
+  });
+});
+
+// Endpoint to get the list of all CPUs from the GPU_AMD table
+app.get('/api/gpus_amd', (req, res) => {
+  // Get the budget from query parameters
+  const budget = req.query.budget;
+
+  // Validate the budget to ensure it's a valid number
+  if (!budget || isNaN(budget)) {
+    return res.status(400).json({ error: 'Invalid or missing budget parameter' });
+  }
+
+  // Prepare the SQL query to filter CPUs below the given budget
+  const query = 'SELECT * FROM GPU_AMD WHERE price <= ?';
+
+  // Execute the query with the budget as a parameter
+  pool.query(query, [budget], (err, results) => {
+    if (err) {
+      console.error('Error fetching data:', err);
+      return res.status(500).json({ error: 'Failed to fetch CPUs' });
+    }
+
+    // Send the filtered results as a JSON response
+    res.json(results);
+  });
+});
+
+// Endpoint to get the list of all CPUs from the Motherboard_AMD table
+app.get('/api/motherboards_amd', (req, res) => {
+  // Get the budget from query parameters
+  const budget = req.query.budget;
+
+  // Validate the budget to ensure it's a valid number
+  if (!budget || isNaN(budget)) {
+    return res.status(400).json({ error: 'Invalid or missing budget parameter' });
+  }
+
+  // Prepare the SQL query to filter CPUs below the given budget
+  const query = 'SELECT * FROM Motherboard_AMD WHERE price <= ?';
+
+  // Execute the query with the budget as a parameter
+  pool.query(query, [budget], (err, results) => {
+    if (err) {
+      console.error('Error fetching data:', err);
+      return res.status(500).json({ error: 'Failed to fetch CPUs' });
+    }
+
+    // Send the filtered results as a JSON response
+    res.json(results);
+  });
+});
+
+// Endpoint to get the list of all CPUs from the Motherboard_Intel table
+app.get('/api/motherboards_intel', (req, res) => {
+  // Get the budget from query parameters
+  const budget = req.query.budget;
+
+  // Validate the budget to ensure it's a valid number
+  if (!budget || isNaN(budget)) {
+    return res.status(400).json({ error: 'Invalid or missing budget parameter' });
+  }
+
+  // Prepare the SQL query to filter CPUs below the given budget
+  const query = 'SELECT * FROM Motherboard_Intel WHERE price <= ?';
+
+  // Execute the query with the budget as a parameter
+  pool.query(query, [budget], (err, results) => {
+    if (err) {
+      console.error('Error fetching data:', err);
+      return res.status(500).json({ error: 'Failed to fetch CPUs' });
+    }
+
+    // Send the filtered results as a JSON response
+    res.json(results);
+  });
+});
+
+// Endpoint to get the list of all CPUs from the RAM table
+app.get('/api/ram', (req, res) => {
+  // Get the budget from query parameters
+  const budget = req.query.budget;
+
+  // Validate the budget to ensure it's a valid number
+  if (!budget || isNaN(budget)) {
+    return res.status(400).json({ error: 'Invalid or missing budget parameter' });
+  }
+
+  // Prepare the SQL query to filter CPUs below the given budget
+  const query = 'SELECT * FROM RAM WHERE price <= ?';
+
+  // Execute the query with the budget as a parameter
+  pool.query(query, [budget], (err, results) => {
+    if (err) {
+      console.error('Error fetching data:', err);
+      return res.status(500).json({ error: 'Failed to fetch CPUs' });
+    }
+
+    // Send the filtered results as a JSON response
+    res.json(results);
+  });
+});
+
+// Endpoint to get the list of all CPUs from the SSD table
+app.get('/api/ssd', (req, res) => {
+  // Get the budget from query parameters
+  const budget = req.query.budget;
+
+  // Validate the budget to ensure it's a valid number
+  if (!budget || isNaN(budget)) {
+    return res.status(400).json({ error: 'Invalid or missing budget parameter' });
+  }
+
+  // Prepare the SQL query to filter CPUs below the given budget
+  const query = 'SELECT * FROM SSD WHERE price <= ?';
+
+  // Execute the query with the budget as a parameter
+  pool.query(query, [budget], (err, results) => {
+    if (err) {
+      console.error('Error fetching data:', err);
+      return res.status(500).json({ error: 'Failed to fetch CPUs' });
+    }
+
+    // Send the filtered results as a JSON response
+    res.json(results);
+  });
+});
+
+// Endpoint to get the list of all CPUs from the HDD table
+app.get('/api/hdd', (req, res) => {
+  // Get the budget from query parameters
+  const budget = req.query.budget;
+
+  // Validate the budget to ensure it's a valid number
+  if (!budget || isNaN(budget)) {
+    return res.status(400).json({ error: 'Invalid or missing budget parameter' });
+  }
+
+  // Prepare the SQL query to filter CPUs below the given budget
+  const query = 'SELECT * FROM HDD WHERE price <= ?';
+
+  // Execute the query with the budget as a parameter
+  pool.query(query, [budget], (err, results) => {
+    if (err) {
+      console.error('Error fetching data:', err);
+      return res.status(500).json({ error: 'Failed to fetch CPUs' });
+    }
+
+    // Send the filtered results as a JSON response
+    res.json(results);
+  });
+});
+
+// Endpoint to get the list of all CPUs from the Power Supplies table
+app.get('/api/power', (req, res) => {
+  // Get the budget from query parameters
+  const budget = req.query.budget;
+
+  // Validate the budget to ensure it's a valid number
+  if (!budget || isNaN(budget)) {
+    return res.status(400).json({ error: 'Invalid or missing budget parameter' });
+  }
+
+  // Prepare the SQL query to filter CPUs below the given budget
+  const query = 'SELECT * FROM PowerSupplies WHERE price <= ?';
+
+  // Execute the query with the budget as a parameter
+  pool.query(query, [budget], (err, results) => {
+    if (err) {
+      console.error('Error fetching data:', err);
+      return res.status(500).json({ error: 'Failed to fetch CPUs' });
+    }
+
+    // Send the filtered results as a JSON response
+    res.json(results);
+  });
+});
+
+// Endpoint to get the list of all CPUs from the Cases table
+app.get('/api/cases', (req, res) => {
+  // Get the budget from query parameters
+  const budget = req.query.budget;
+
+  // Validate the budget to ensure it's a valid number
+  if (!budget || isNaN(budget)) {
+    return res.status(400).json({ error: 'Invalid or missing budget parameter' });
+  }
+
+  // Prepare the SQL query to filter CPUs below the given budget
+  const query = 'SELECT * FROM Cases WHERE price <= ?';
+
+  // Execute the query with the budget as a parameter
+  pool.query(query, [budget], (err, results) => {
+    if (err) {
+      console.error('Error fetching data:', err);
+      return res.status(500).json({ error: 'Failed to fetch CPUs' });
+    }
+
+    // Send the filtered results as a JSON response
+    res.json(results);
+  });
+});
+
+// Endpoint to get the list of all CPUs from the Fans table
+app.get('/api/fans', (req, res) => {
+  // Get the budget from query parameters
+  const budget = req.query.budget;
+
+  // Validate the budget to ensure it's a valid number
+  if (!budget || isNaN(budget)) {
+    return res.status(400).json({ error: 'Invalid or missing budget parameter' });
+  }
+
+  // Prepare the SQL query to filter CPUs below the given budget
+  const query = 'SELECT * FROM Fans WHERE price <= ?';
+
+  // Execute the query with the budget as a parameter
+  pool.query(query, [budget], (err, results) => {
+    if (err) {
+      console.error('Error fetching data:', err);
+      return res.status(500).json({ error: 'Failed to fetch CPUs' });
+    }
+
+    // Send the filtered results as a JSON response
+    res.json(results);
+  });
+});
+
 
 
 const port = process.env.PORT || 3000;
